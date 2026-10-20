@@ -41,12 +41,12 @@ help more.
    discrepancies. Do this in proportion to the question; it is not required every step.
 2. `<WS>/history.md`: all previous decisions, briefs, and specialist reports. Do not re-propose
    something that was already tried unless you say why it should be revisited.
-3. `<WS>/corpus/summary.txt`: one line per measurement, model vs. MINERvA-GENIE (MnvTune)
-   χ²/ndf (full covariance), median |pull|, and integrated normalisation ratio.
+3. `<WS>/corpus/summary.txt`: one line per measurement, model vs. data: χ²/ndf (full covariance),
+   median |pull|, and integrated normalisation ratio.
 4. Per measurement, in `<WS>/corpus/<id>/`:
    - `definition.md`: signal definition, observables, and motivation.
    - `metrics.json`
-   - `projections.txt`: 1D projections with data ± total uncertainty, GENIE, and model. This is usually the most informative file.
+   - `projections.txt`: 1D projections with data ± total uncertainty and the model. This is usually the most informative file.
    - `comparison.txt`: per-bin values and pulls.
    - `result.npz`: arrays, including covariances.
    You may analyse these with Python, e.g. `<WS>/venv/bin/python` or `$(cat <WS>/.python)`, numpy.
@@ -59,12 +59,15 @@ help more.
 the loop. Work from the text and array files.
 
 Interpretation notes:
-- MINERvA χ² with full covariances are often large even for good models (tightly correlated
-  flux and normalisation systematics; Peelle's pertinent puzzle). Compare model χ² against the
-  GENIE χ² on the same measurement, and look at the shapes in the projections and the normalisation
-  ratios. Do not read absolute χ² values as goodness-of-fit probabilities.
-- The GENIE column is the MINERvA-tuned GENIE 2.12.6 prediction (MnvTune, tuned to MINERvA data).
-  It is a useful benchmark, not the truth.
+- MINERvA χ² with full covariances can be large even for a good model, because flux and
+  normalisation systematics are tightly correlated (Peelle's pertinent puzzle). Look at the shapes
+  in the projections, at the normalisation ratios and pulls, and at how the χ² changes between
+  model versions (`history.md`). Do not read absolute χ² values as goodness-of-fit probabilities.
+- The model is judged against the **data only**. Never use another generator's prediction as a
+  benchmark or target: not MINERvA's GENIE/MnvTune, NuWro, NEUT or GiBUU. Do not look up the
+  predictions in the measurement repo (`reference/` files, the stored MC-truth prediction in the
+  results or accumulators) or the curves in papers. The goal is a model that is developed
+  independently of any existing generator implementation.
 - Every model prediction uses the measurement's own signal definition, applied to the generator's
   final-state particles. A missing final-state process (e.g. no pion production) appears as a zero
   or strongly low prediction.

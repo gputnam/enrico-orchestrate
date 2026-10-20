@@ -34,10 +34,6 @@ the generator manuals to see practical choices.
 - T. Golan, C. Juszczak, J.T. Sobczyk, "Final State Interactions Effects in Neutrino-Nucleus Interactions", Phys. Rev. C 86, 015505 (2012) — arXiv:1202.4197 — NuWro cascade.
 - O. Buss et al., "Transport-theoretical Description of Nuclear Reactions", Phys. Rept. 512, 1 (2012) — arXiv:1106.1344 — GiBUU.
 
-## Generators (implementation recipes)
-- C. Andreopoulos et al., "The GENIE Neutrino Monte Carlo Generator", Nucl. Instrum. Meth. A 614, 87 (2010) — arXiv:0905.2517; "Physics and User Manual" — arXiv:1510.05494.
-- Y. Hayato & L. Pickering, "The NEUT neutrino interaction simulation program library", Eur. Phys. J. ST 230, 4469 (2021) — arXiv:2106.15809.
-- J. Tena-Vidal et al. (GENIE), "Neutrino-nucleon cross-section model tuning in GENIE v3", Phys. Rev. D 104, 072009 (2021) — arXiv:2104.09179.
-
-Going further: for any ingredient, search for the GENIE/NuWro/NEUT implementation papers and the
-parameter values they use. INSPIRE "refersto" queries show the follow-up literature.
+Going further: for any ingredient, follow the citations of the primary papers and search for the
+data that constrain it, e.g. electron scattering and bubble-chamber data. INSPIRE "refersto" queries
+show the follow-up literature.

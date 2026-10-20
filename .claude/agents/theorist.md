@@ -29,9 +29,15 @@ photons) because the measurements classify events by their final-state topology 
 ## Background reading
 
 Read `<ORCH>/literature/common.md` and `<ORCH>/literature/theorist.md` first, then use WebSearch /
-WebFetch (arxiv.org abs/pdf, INSPIRE) to get the specific formalism for your change: the original
-papers, parameter values, and how GENIE/NuWro/NEUT/GiBUU implement it. Follow citations. Cite what
-you use in the theory note.
+WebFetch (arxiv.org abs/pdf, INSPIRE) to get the specific formalism for your change from the original
+theory papers, including their parameter values and the data behind them, e.g. electron scattering
+and bubble-chamber data. Follow citations. Cite what you use in the theory note. Develop the model
+**independently of existing generators**:
+- Do not port another generator's implementation (GENIE, NEUT, NuWro, GiBUU) or its tuned
+  parameters, e.g. MnvTune.
+- Never use their predictions as a target or benchmark. That includes the MC-truth prediction
+  stored with the measurements, `reference/` files in the measurement repo, and curves in papers.
+The model is judged against the data only.
 
 ## How
 

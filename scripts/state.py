@@ -86,6 +86,12 @@ def validate_corpus(ws, version=None):
                 errs.append(f"{e['id']}: model_version {m.get('model_version')} != {version}")
             if not os.path.isdir(os.path.join(ws, "plots", f"model_{m.get('model_version')}", e["id"])):
                 errs.append(f"{e['id']}: no plots in plots/model_{m.get('model_version')}/")
+        rp = os.path.join(d, "result.npz")
+        if os.path.exists(rp):
+            import zipfile
+            names = zipfile.ZipFile(rp).namelist()
+            if any(n.startswith(("genie", "truth")) for n in names):
+                errs.append(f"{e['id']}: result.npz contains a GENIE/truth prediction (must be in plots/_genie only)")
     if not os.path.exists(os.path.join(ws, "corpus", "summary.txt")):
         errs.append("corpus/summary.txt missing")
     return errs

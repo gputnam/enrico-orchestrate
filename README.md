@@ -68,11 +68,11 @@ model/                clone of enrico-model,       branch loop/<run-id> (one com
 measurement/          clone of enrico-measurement, branch loop/<run-id> (one commit per experimentalist step)
 corpus/               THE DATA MODEL (text for agents)
   index.json          entries: id, measurement dir, class, kwargs, title, origin (seed | step-<n>)
-  summary.txt         one line per entry: model and GENIE chi2/ndf, median |pull|, normalisation ratio
+  summary.txt         one line per entry: model chi2/ndf, median |pull|, normalisation ratio
   <id>/definition.md  signal definition, observables + units, selection, motivation
-  <id>/result.npz     data, cov_total/stat/sys, GENIE (MnvTune) prediction, bin edges
-  <id>/comparison.txt per bin: edges, data, stat/total error, GENIE, model, ratios, pulls, used flag
-  <id>/projections.txt 1D projections on each axis (data +- total, GENIE, model)
+  <id>/result.npz     data, cov_total/stat/sys, bin edges
+  <id>/comparison.txt per bin: edges, data, stat/total error, model, ratio, pull, used flag
+  <id>/projections.txt 1D projections on each axis (data +- total, model)
   <id>/metrics.json   chi2 (full cov / diagonal), pulls, normalisation, model version
   <id>/model.npy      current model prediction
 results/              *_xsec.pkl outputs of new measurements (inputs of the corpus)
@@ -82,6 +82,7 @@ reports/              step_<n>_<role>.md  specialist reports
 plots/                HUMAN ONLY - never read by the agents
   model_v<k>/<id>/projections.png, slices_<j>.png   data vs MINERvA GENIE vs model v<k>
   model_v<k>/summary.txt, model_commit.txt
+  _genie/<id>_genie.npz   MINERvA GENIE (MnvTune) prediction per measurement, for the plots only
 scratch/              theorist trial comparisons (predict.sh --trial)
 ```
 
@@ -95,8 +96,22 @@ scratch/              theorist trial comparisons (predict.sh --trial)
 **Comparisons.** The model prediction is computed by applying each measurement's own `signal()` and
 `truth()` to nuflow's final-state particles (`measurement/xsec/xsec/genpred.py`). It uses the same
 flux as the data (data-POT-weighted, ν–e constrained ME FHC flux, 0–100 GeV) and is normalised per
-nucleon. "GENIE" means the MINERvA-tuned GENIE 2.12.6 (MnvTune) prediction stored with each
-measurement. χ² values use the full covariance over bins with fractional uncertainty below 100%.
+nucleon. χ² values use the full covariance over bins with fractional uncertainty below 100%.
+
+**The agents never see another generator's prediction.**
+- The corpus contains only data and the model under study.
+- The MINERvA-tuned GENIE 2.12.6 (MnvTune) prediction of each measurement is kept in the human-only
+  `plots/_genie/`. It is drawn only in the plots, so you can compare the model with GENIE yourself.
+  - `run_measurement.py` strips it from new results.
+  - `state.py validate` fails if it shows up in the corpus.
+- `.claude/settings.json` also blocks the agents from reading (these are absolute paths for the current
+  installation, so adapt them if you move the data or the source checkouts):
+  - the seed result pickles;
+  - the published model predictions and papers in the clones' `measurements/*/reference/`;
+  - the original source checkouts of the model and measurement repos, which contain result pickles
+    that include the GENIE prediction.
+- The prompts tell the agents to judge the model against the data only, and to develop it
+  independently of existing generators: no ported code or tuned parameters, no predictions as a target.
 
 ## Scripts
 

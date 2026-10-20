@@ -84,6 +84,9 @@ Rules:
 - Neither you nor the agents ever read files under `WS/plots/`. They are for the human only.
 - Never edit the clones, the corpus or `state.json` by hand. Only the agents and the scripts may change them.
 - Never push the clones' `loop/<run-id>` branches. They stay local.
+- Never give the agents, or quote to them, any prediction of another generator: the MINERvA
+  GENIE/MnvTune prediction in `WS/plots/_genie/`, NuWro, NEUT or GiBUU. The model is optimised
+  against the data alone.
 
 ## 3. Final report
 
