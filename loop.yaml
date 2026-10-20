@@ -1,0 +1,27 @@
+# Closed-loop configuration (flat "key: value"; read by scripts/config.py, no YAML library needed).
+
+# Git repositories cloned into each run workspace (branch loop/<run-id> is created in each clone).
+github_owner: CHANGE_ME
+model_repo: https://github.com/${github_owner}/enrico-model.git
+measurement_repo: https://github.com/${github_owner}/enrico-measurement.git
+model_ref: master
+measurement_ref: master
+
+# Where run workspaces are created (relative paths are relative to this repo).
+runs_dir: runs
+
+# Python: an existing interpreter with the measurement/requirements.txt packages, or "auto" to
+# create <workspace>/venv from the cloned measurement/requirements.txt.  The cloned measurement/xsec
+# is always put first on PYTHONPATH, so an interpreter with a different (editable) xsec is fine.
+python: auto
+
+# MINERvA open-data inputs (fixed, not cloned)
+mva_aux: /exp/sbnd/data/users/gputnam/MvA-Loop/aux
+df_mc: /pnfs/sbnd/scratch/users/gputnam/MvA-Loop/df/v1/me_fhc_mc
+df_data: /pnfs/sbnd/scratch/users/gputnam/MvA-Loop/df/v1/me_fhc_data
+# Seed measurement results (*_xsec.pkl, layout <measurement>/v1/...); "rerun" re-runs them from the DFs
+seed_results: /exp/sbnd/data/users/gputnam/MvA-Loop/seed_results
+seed_measurements: ccinc_2d_me_fhc ccqelike_3d_me_fhc ccqelike_3d_le_me_fhc ccpip_me_fhc
+
+# Workers for the measurement event loop
+workers: 16
