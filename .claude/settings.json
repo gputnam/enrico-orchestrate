@@ -17,8 +17,8 @@
       "Read(/runs/*/measurement/measurements/*/reference/**)",
       "Grep(/runs/*/measurement/measurements/*/reference/**)",
       "Read(//exp/sbnd/data/users/gputnam/MvA-Loop/seed_results/**)",
-      "Read(//exp/sbnd/app/users/gputnam/MvA-Loop/measurement/**)",
-      "Read(//exp/sbnd/app/users/gputnam/MvA-Loop/model/**)"
+      "Read(//exp/sbnd/app/users/gputnam/MvA-Loop/enrico-measurement/**)",
+      "Read(//exp/sbnd/app/users/gputnam/MvA-Loop/enrico-model/**)"
     ]
   }
 }

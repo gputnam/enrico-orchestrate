@@ -1,7 +1,7 @@
 # Closed-loop configuration (flat "key: value"; read by scripts/config.py, no YAML library needed).
 
 # Git repositories cloned into each run workspace (branch loop/<run-id> is created in each clone).
-github_owner: CHANGE_ME
+github_owner: gputnam
 model_repo: https://github.com/${github_owner}/enrico-model.git
 measurement_repo: https://github.com/${github_owner}/enrico-measurement.git
 model_ref: master
