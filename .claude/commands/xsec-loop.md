@@ -27,6 +27,13 @@ Arguments: `$ARGUMENTS`
 - `--resume <run-id>`: continue an existing workspace `runs/<run-id>` from its `state.json`.
 - `--run-id <name>`: name for a new run. The default is `run-YYYYMMDD-HHMM`.
 
+**Run everything synchronously and never end your turn before the loop is finished.**
+- This command often runs headless (`claude -p`), where the session ends as soon as you stop.
+- Do not use `run_in_background`, `&`, background monitors or "wait to be notified".
+- Long commands run in the foreground with an explicit timeout of up to 600000 ms.
+- Sub-agent calls block until the agent finishes.
+- End your turn only with the final report, or after a fatal error that you have reported.
+
 All paths below are relative to this repository (`ORCH`, the current directory). Run every command
 from here.
 
@@ -34,7 +41,8 @@ from here.
 
 - **New run.**
   1. Read `loop.yaml`. If `github_owner` is `CHANGE_ME`, stop and ask the user to set it.
-  2. Run `scripts/bootstrap.sh <run-id>` with a long timeout (up to 30 min); run it in the background if needed.
+  2. Run `scripts/bootstrap.sh <run-id> > runs/<run-id>.bootstrap.log 2>&1` in the **foreground** with the
+     Bash timeout set to 600000 ms (it takes about 2–5 min), then read the log tail.
      It clones `model/` and `measurement/` from GitHub into `runs/<run-id>/` on the branch `loop/<run-id>`.
      It then creates the Python environment, builds and tests the model, seeds the corpus with the
      existing MINERvA measurements, and writes the v0 comparison and plots.
