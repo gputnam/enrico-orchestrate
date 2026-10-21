@@ -48,6 +48,15 @@ from here.
      existing MINERvA measurements, and writes the v0 comparison and plots.
   3. If bootstrap fails, show the error to the user and stop. Do not patch the clones yourself.
 - **Resume.** Use `WS=runs/<run-id>` and run `python3 scripts/state.py show $WS`.
+  - If `state.json` has a `current` step, it was interrupted, e.g. by a usage limit or a crash.
+    Resume that same step: `state.py begin` keeps the original start record.
+  - Tell the dispatched agent that it is **resuming an interrupted step**. It must first look at what
+    the previous attempt left behind and continue from there, not start over:
+    - `git -C $WS/model status` / `git -C $WS/model diff`, or the same for the measurement clone;
+    - untracked files;
+    - `$WS/scratch/`;
+    - `$WS/results/`;
+    - any partial report in `$WS/reports/`.
 - In both cases set `WS` to the **absolute** workspace path and `ORCH` to the absolute path of this repo.
 
 ## 2. Loop
