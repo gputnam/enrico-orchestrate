@@ -17,8 +17,8 @@ python: auto
 
 # MINERvA open-data inputs (fixed, not cloned)
 mva_aux: /exp/sbnd/data/users/gputnam/MvA-Loop/aux
-df_mc: /pnfs/sbnd/scratch/users/gputnam/MvA-Loop/df/v1/me_fhc_mc
-df_data: /pnfs/sbnd/scratch/users/gputnam/MvA-Loop/df/v1/me_fhc_data
+df_mc: /pnfs/sbnd/scratch/users/gputnam/MvA-Loop/df/v2/me_fhc_mc
+df_data: /pnfs/sbnd/scratch/users/gputnam/MvA-Loop/df/v2/me_fhc_data
 # Seed measurement results (*_xsec.pkl, layout <measurement>/v1/...); "rerun" re-runs them from the DFs
 seed_results: /exp/sbnd/data/users/gputnam/MvA-Loop/seed_results
 seed_measurements: ccinc_2d_me_fhc ccqelike_3d_me_fhc ccqelike_3d_le_me_fhc ccpip_me_fhc
