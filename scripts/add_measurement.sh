@@ -12,6 +12,6 @@ STEP=$(python3 "$ORCH/scripts/state.py" step "$WS")
 [ -e "$WS/model_out/current.root" ] || { echo "no current model file"; exit 1; }
 IDS=$("$PY" -c "import json,sys; print(' '.join(e['id'] for e in json.load(open('$MEAS/measurements/$NAME/corpus.json'))))")
 "$PY" -m xsec.corpus add --corpus "$WS/corpus" --measurement "$NAME" --results-root "$WS/results" --origin "step-$STEP"
-"$PY" -m xsec.corpus predict --corpus "$WS/corpus" --model "$WS/model_out/current.root" --model-version "$VER" \
-  --plots "$WS/plots/model_$VER" --only $IDS
+"$PY" -m xsec.corpus predict --corpus "$WS/corpus" --model "$WS/model_out/current.root" --model-version "$VER" --only $IDS
+"$PY" "$ORCH/scripts/plot_models.py" "$WS" "$VER" --only $IDS
 cp "$WS/corpus/summary.txt" "$WS/plots/model_$VER/summary.txt"

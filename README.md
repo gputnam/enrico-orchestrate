@@ -26,7 +26,7 @@ Requirements (all present on the Fermilab `sbnd` interactive nodes, EL9):
   - the seed measurement results (`seed_results`), or set `seed_results: rerun` to rerun the four seed measurements from the dataframes (about 15 min)
 - `git`, plus access to the two GitHub repositories
 - [Claude Code](https://claude.com/claude-code) (`npm install -g @anthropic-ai/claude-code`), logged in
-- Disk: about 3 GB per run workspace (clones, model build, venv, one 400 MB model file, corpus, plots)
+- Disk: about 3 GB per run workspace (clones, model build, venv, corpus, plots), plus about 0.8 GB per model version (every model file is kept)
 
 Steps:
 1. Clone this repo: `git clone https://github.com/<owner>/enrico-orchestrate.git orchestrate && cd orchestrate`
@@ -76,11 +76,12 @@ corpus/               THE DATA MODEL (text for agents)
   <id>/metrics.json   chi2 (full cov / diagonal), pulls, normalisation, model version
   <id>/model.npy      current model prediction
 results/              *_xsec.pkl outputs of new measurements (inputs of the corpus)
-model_out/            current model sample (model_v<k>.root, current.root symlink)
+model_out/            model samples of every version (model_v<k>.root, current.root symlink to the current one)
+  pred/model_v<k>/<id>.npy   cached prediction of each version per measurement (for the plots)
 decisions/            step_<n>.json   phenomenologist decisions
 reports/              step_<n>_<role>.md  specialist reports
 plots/                HUMAN ONLY - never read by the agents
-  model_v<k>/<id>/projections.png, slices_<j>.png   data vs MINERvA GENIE vs model v<k>
+  model_v<k>/<id>/projections.png, slices_<j>.png   data vs MINERvA GENIE vs model v<k> and up to 5 earlier versions
   model_v<k>/summary.txt, model_commit.txt
   _genie/<id>_genie.npz   MINERvA GENIE (MnvTune) prediction per measurement, for the plots only
 scratch/              theorist trial comparisons (predict.sh --trial)
@@ -88,6 +89,9 @@ scratch/              theorist trial comparisons (predict.sh --trial)
 
 - Each theorist step writes a new `plots/model_v<k+1>/` for every measurement. Earlier folders are
   never touched, so you can follow how the model evolves.
+- Each figure shows the model version of its folder together with up to 5 earlier versions, spaced
+  evenly between v0 and that version (`scripts/plot_models.py`), plus the MINERvA GENIE prediction.
+  This is why every `model_out/model_v<k>.root` is kept.
 - Measurements added by the experimentalist get their plots in the folder of the model version that
   is current when they are added.
 - The comparison files in `corpus/` always refer to the current model. The theorist overwrites them
@@ -119,6 +123,7 @@ nucleon. χ² values use the full covariance over bins with fractional uncertain
 |---|---|---|
 | `scripts/bootstrap.sh <run-id>` | orchestrator | clone, branch, venv, build model, seed corpus, v0 comparison and plots, init state |
 | `scripts/predict.sh <ws> [--trial]` | theorist | build + run model, recompare all measurements (new version, plots); `--trial` compares in scratch only |
+| `scripts/plot_models.py <ws> <ver> [--only ids] [--entries-as-of]` | predict.sh, add_measurement.sh | human-only plots of `plots/model_<ver>/`: data, GENIE, model `<ver>` and up to 5 earlier versions spaced evenly from v0 |
 | `scripts/add_measurement.sh <ws> <name>` | experimentalist | add a measurement's results to the corpus, compare with the current model, plots |
 | `scripts/state.py begin/decide/complete/validate/show` | orchestrator | state transitions and data-model validation |
 | `scripts/env.sh <ws>` | all | environment (`PY`, `PYTHONPATH` = clone's xsec, data paths) |

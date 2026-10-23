@@ -114,7 +114,7 @@ When the loop ends, give the user a concise summary:
 - each model change (version and physics);
 - how the corpus summary changed from v0 to the current model, from `WS/history.md`;
 - the locations for human inspection:
-  - `WS/plots/model_v<k>/`: one folder per model version, never overwritten;
+  - `WS/plots/model_v<k>/`: one folder per model version, never overwritten (each figure also shows up to 5 earlier versions);
   - `WS/history.md`
   - `WS/corpus/summary.txt`
   - the git logs of `WS/model` and `WS/measurement` on `loop/<run-id>`.
